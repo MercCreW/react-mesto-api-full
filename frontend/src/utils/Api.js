@@ -1,7 +1,8 @@
 class Api{
-    constructor({baseUrl, headers}){
+    constructor({baseUrl, headers, сredentials }){
         this._baseUrl = baseUrl;
         this._headers = headers;
+        this._сredentials = сredentials;
     }
 
     _checkStatus(res) {
@@ -95,11 +96,11 @@ class Api{
 }
 
 const api = new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-16",
+    baseUrl: 'https://api.iskandarov-project.students.nomoreparties.xyz/',
     headers: {
-      authorization: "94eaa851-634c-434c-a23c-4aeaaa34181d",
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
+    сredentials: 'include',
   });
 
 export default api;
