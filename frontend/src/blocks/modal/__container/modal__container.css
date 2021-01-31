@@ -1,0 +1,15 @@
+.modal__container{
+    position: relative;
+    max-width: 240px;
+    background: white;
+    color: black;
+    padding: 34px 36px 36px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width:580px){
+    .modal__container{
+        max-width: 430px;
+    }
+}

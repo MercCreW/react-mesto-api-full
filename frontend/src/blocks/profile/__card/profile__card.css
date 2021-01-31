@@ -1,0 +1,14 @@
+.profile__card{
+    display: flex;
+    min-width: 280px;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (min-width: 620px){
+    .profile__card{
+        max-width: 486px;
+        flex-direction: row;
+        align-items: center;
+    }
+}

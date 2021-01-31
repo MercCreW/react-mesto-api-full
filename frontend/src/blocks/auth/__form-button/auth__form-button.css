@@ -1,0 +1,23 @@
+.auth__form-button{
+    margin-top: 216px;
+    border: none;
+    outline: none;
+    padding: 0;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    width: 100%;
+    padding: 14px 84px 14px 84px;
+    cursor: pointer;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.auth__form-button:hover {
+    opacity: .85;
+}

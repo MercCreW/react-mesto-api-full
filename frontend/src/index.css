@@ -1,0 +1,24 @@
+@import url("./vendor/normalize.css");
+@import url("./fonts/fonts.css");
+@import url("./blocks/page/page.css");
+@import url("./blocks/auth/auth.css");
+@import url("./blocks/header/header.css");
+@import url("./blocks/profile/profile.css");
+@import url("./blocks/content/content.css");
+@import url("./blocks/elements/elements.css");
+@import url("./blocks/element/element.css");
+@import url("./blocks/element/__like-button/_acive/element__like-button_acive.css");
+@import url("./blocks/footer/footer.css");
+@import url("./blocks/modal/modal.css");
+@import url("./blocks/modal/_open/modal_open.css");
+@import url("./blocks/modal/_type/modal_type_img-big.css");
+@import url("./blocks/modal/__save-button/_inactive/modal__save-button_inactive.css");
+
+body{
+    background-color: black;
+    color: white;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}

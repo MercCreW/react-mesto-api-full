@@ -1,0 +1,19 @@
+@import url("./__copyright/footer__copyright.css");
+.footer{
+    max-width: 280px;
+    margin: 48px auto 36px;
+}
+
+@media screen and (min-width: 620px) and (max-width: 919px){
+    .footer{
+        max-width: 580px;
+        margin: 75px auto 48px;
+    }
+}
+
+@media screen and (min-width: 920px){
+    .footer{
+        min-width: 880px;
+        margin: 66px auto 60px;
+    }
+}

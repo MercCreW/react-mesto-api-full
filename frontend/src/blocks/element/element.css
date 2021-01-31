@@ -1,0 +1,15 @@
+@import url("./__image/element__image.css");
+@import url("./__delete-button/element__delete-button.css");
+@import url("./__items/element__items.css");
+@import url("./__title/element__title.css");
+@import url("./__like-button/element__like-button.css");
+@import url("./__delete-button/_owner/element__delete-button_owner.css");
+@import url("./__count-likes/element__count-likes.css");
+@import url("./__likes-box/element__likes-box.css");
+
+.element{
+    position: relative;
+    border-radius: 10px;
+    list-style-type: none;
+    overflow: hidden;
+}

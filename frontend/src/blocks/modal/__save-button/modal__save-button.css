@@ -1,0 +1,23 @@
+.modal__save-button{
+    width: 100%;
+    background: black;
+    font-size: 18px;
+    line-height: 22px;
+    border: none;
+    color: white;
+    padding: 14px 25px 18px;
+    margin: 0px;
+    border-radius: 2px;
+    transition: .5s;
+    cursor: pointer;
+    margin-top: 48px;
+}
+  
+.modal__save-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+@media screen and (min-width:580px){
+    .modal__save-button{
+        padding: 14px 125px 18px;
+    }
+}

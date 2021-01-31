@@ -1,0 +1,10 @@
+.modal__input{
+    width:100%;
+    padding:0px 0px 14px;
+    border: none;
+    border-bottom: 1px solid rgb(0, 0, 0,.2);
+}
+
+.modal__input:invalid{
+    border-bottom:  1px solid #FF0000;
+}

@@ -1,0 +1,13 @@
+.header__authLink{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    margin-left: 24px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.header__authLink:hover {
+    opacity: .6;
+}

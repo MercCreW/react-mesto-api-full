@@ -1,0 +1,8 @@
+.element__items{
+    display: flex;
+    padding: 25px 20px 31px;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 240px;
+    background: #FFFFFF;
+}
