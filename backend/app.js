@@ -54,14 +54,14 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', celebrate({
+app.post('/sign-in', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
 }), login);
 
-app.post('/signup', celebrate({
+app.post('/sign-up', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(40),
     about: Joi.string().min(2).max(200),
