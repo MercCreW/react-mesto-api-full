@@ -1,4 +1,6 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+//export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'api.iskandarov-project.students.nomoreparties.xyz';
+
 
 
 

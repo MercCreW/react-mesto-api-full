@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 module.exports.getUserById = (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
     User.findById(req.params.id)
@@ -18,13 +20,13 @@ module.exports.getUserById = (req, res) => {
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .then((user) => res.send( user ))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err) {
         return next(err);
       }
     });
-}
+};
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -33,8 +35,10 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar, email, password } = req.body;
-  
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
+
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
@@ -81,43 +85,25 @@ module.exports.updateAvatarUser = (req, res) => {
     });
 };
 
-  module.exports.login = (req, res, next) => {
-    const { email, password } = req.body;
-  
-    return User.findUserByCredentials(email, password)
-      .then((user) => {
-        const token = jwt.sign(
-          { _id: user._id },
-          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-          { expiresIn: '7d' },
-        );
-        res
-          .cookie('jwt', token, {
-            maxAge: 3600000 * 24 * 7,
-            httpOnly: true,
-            sameSite: true,
-          })
-          .send({
-            name: user.name, about: user.about, avatar: user.avatar, email: user.email, token,
-          });
-      })
-      .catch((err) => {
-        res.status(401).send({message: err})
-      });
-  };
-  
-  userSchema.statics.findUserByCredentials = function(email, password) {
-    return this.findOne({ email }).select('+password')
-      .then((user) => {
-        if (!user) {
-          return Promise.reject(new Error('Неправильные почта или пароль'));
-        }
-        return bcrypt.compare(password, user.password)
-          .then((matched) => {
-            if (!matched) {
-              return Promise.reject(new Error('Неправильные почта или пароль'));
-            }
-            return user;
-          });
-      });
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
+      );
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({
+          name: user.name, about: user.about, avatar: user.avatar, email: user.email, token,
+        });
+    })
+    .catch(next);
 };

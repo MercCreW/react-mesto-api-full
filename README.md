@@ -4,3 +4,6 @@
 # Ссылки: 
 [http://iskandarov-project.students.nomoreparties.xyz]
 [http://api.iskandarov-project.students.nomoreparties.xyz]
+
+## Публичный ip-адрес:
+[178.154.229.149]
