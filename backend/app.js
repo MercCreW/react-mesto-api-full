@@ -13,10 +13,10 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const allowedCors = [
-  'https://iskandarov-mesto.students.nomoreparties.xyz',
-  'http://iskandarov-mesto.students.nomoreparties.xyz',
-  'https://www.iskandarov-mesto.students.nomoreparties.xyz',
-  'http://www.iskandarov-mesto.students.nomoreparties.xyz'
+  'https://iskandarov-project.students.nomoreparties.xyz',
+  'http://iskandarov-project.students.nomoreparties.xyz',
+  'https://www.iskandarov-project.students.nomoreparties.xyz',
+  'http://www.iskandarov-project.students.nomoreparties.xyz'
 ];
 
 app.use(function(req, res, next) {
@@ -44,8 +44,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 
-app.use(bodyParser.json()); // для собирания JSON-формата
-app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
