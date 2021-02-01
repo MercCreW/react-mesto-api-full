@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const auth = require('./middlewares/auth');
-const NotFoundError = require('./errors/notFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, createUser } = require('./controllers/user');
 
@@ -54,9 +53,22 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/sign-in', login);
+app.post('/sign-in', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+  }),
+}), login);
 
-app.post('/sign-up', createUser);
+app.post('/sign-up', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(40),
+    about: Joi.string().min(2).max(200),
+    avatar: Joi.string().regex(/https?:\/\/\S+\.\S+/m),
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+  }),
+}), createUser);
 
 app.use(auth);
 app.use('/', auth, routes);

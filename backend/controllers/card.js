@@ -4,7 +4,7 @@ const BadRequestError = require('../errors/badRequestError');
 const NotFoundError = require('../errors/notFoundError');
 const ForbiddenError = require('../errors/forbiddenError');
 
-module.exports.deleteCardById = (req, res) => {
+module.exports.deleteCardById = (req, res, next) => {
   if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     Card.findById(req.params.id)
 
@@ -23,13 +23,13 @@ module.exports.deleteCardById = (req, res) => {
   }
 };
 
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.status(200).json({ data: cards }))
-    .catch(() => res.status(500).json({ message: 'Произошла ошибка на сервере' }));
+    .then((card) => res.send(card))
+    .catch(next);
 };
 
-module.exports.createCard = (req, res) => {
+module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
@@ -42,7 +42,7 @@ module.exports.createCard = (req, res) => {
     .catch(next);
 };
 
-module.exports.likeCard = (req, res) => {
+module.exports.likeCard = (req, res, next) => {
   if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     Card.findByIdAndUpdate(
       req.params.cardId,
@@ -59,7 +59,7 @@ module.exports.likeCard = (req, res) => {
   }
 };
 
-module.exports.unlikeCard = (req, res) => {
+module.exports.unlikeCard = (req, res, next) => {
   if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     Card.findByIdAndUpdate(
       req.params.cardId,
