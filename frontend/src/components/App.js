@@ -86,7 +86,7 @@ function App() {
         auth.register(escape(password), email)
           .then(() => {
             setMessage({ iconPath: accessiblePath, text: 'Вы успешно зарегистрировались!' });
-            history.push('/sign-in');
+            history.push('/signin');
           })
           .catch((err) => setMessage({ iconPath: notAccessiblePath, text: err.message }));
         setInfoTooltipOpen(true);

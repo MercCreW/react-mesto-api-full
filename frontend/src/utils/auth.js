@@ -1,11 +1,11 @@
 // export const BASE_URL = 'https://auth.nomoreparties.co';
-export const BASE_URL = 'api.iskandarov-project.students.nomoreparties.xyz';
+export const BASE_URL = 'https://api.iskandarov-project.students.nomoreparties.xyz';
 
 
 
 
 // Отправляем запрос на регистрацию
-export const register = (password, email) => fetch(`${BASE_URL}/sign-up`, {
+export const register = (password, email) => fetch(`${BASE_URL}/signup`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const register = (password, email) => fetch(`${BASE_URL}/sign-up`, {
   });
 
 // Отправляем запрос на авторизацию
-export const authorize = (password, email) => fetch(`${BASE_URL}/sign-in`, {
+export const authorize = (password, email) => fetch(`${BASE_URL}/signin`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
