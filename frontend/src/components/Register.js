@@ -11,7 +11,7 @@ function Register({ onRegister }){
         <AuthForm
             title='Регистрация'
             submitButtonText='Зарегистрироваться'
-            path='/sign-in'
+            path='/signin'
             loginText='Уже зарегистрированы? '
             loginLink='Войти'
             onSubmit={submitForm}

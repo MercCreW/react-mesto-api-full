@@ -96,7 +96,7 @@ class Api{
 }
 
 const api = new Api({
-    baseUrl: 'https://api.iskandarov-project.students.nomoreparties.xyz/',
+    baseUrl: 'https://api.iskandarov-project.students.nomoreparties.xyz',
     headers: {
       'Content-Type': 'application/json',
     },

@@ -11,7 +11,7 @@ function Login({ onLogin }) {
         <AuthForm
             title='Вход'
             submitButtonText='Войти'
-            path='/sign-up'
+            path='/signup'
             onSubmit={submitForm}
         />
     );

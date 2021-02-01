@@ -113,7 +113,7 @@ function App() {
         setLoggedIn(false);
         localStorage.removeItem('jwt');
         setEmail('');
-        history.push('/sign-in');
+        history.push('/signin');
     }
 
     function handleUpdateUser(data){
@@ -196,15 +196,15 @@ return (
             onClose={closeAllPopups}
             />
             
-            <Route exact path ="/sign-in">
+            <Route exact path ="/signin">
                 <Login onLogin={handleLogin} />
             </Route>
        
-            <Route path='/sign-up'>
+            <Route path='/signup'>
                 <Register onRegister={handleRegister} />
             </Route>
             <Route>
-                {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+                {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
             </Route>
         </Switch>
         <Footer />
