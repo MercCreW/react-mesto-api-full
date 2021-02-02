@@ -1,9 +1,12 @@
+const cors = require('cors');
+
 const { Joi, celebrate } = require('celebrate');
 const { errors } = require('celebrate');
 
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { corsConfig } = require('./middlewares/cors');
 const routes = require('./routes');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -11,29 +14,6 @@ const { login, createUser } = require('./controllers/user');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-
-const allowedCors = [
-  'https://iskandarov-project.students.nomoreparties.xyz',
-  'http://iskandarov-project.students.nomoreparties.xyz',
-  'https://www.iskandarov-project.students.nomoreparties.xyz',
-  'http://www.iskandarov-project.students.nomoreparties.xyz',
-];
-
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, authorization');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS');
-  }
-
-  if (req.method === 'OPTIONS') {
-    res.send(200);
-  } else {
-    next();
-  }
-});
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -46,6 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use('*', cors(corsConfig));
 
 app.get('/crash-test', () => {
   setTimeout(() => {
