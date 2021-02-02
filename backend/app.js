@@ -71,7 +71,7 @@ app.post('/signup', celebrate({
 }), createUser);
 
 app.use(auth);
-app.use('/', auth, routes);
+app.use('/', routes);
 
 app.use(errorLogger);
 app.use(errors());
