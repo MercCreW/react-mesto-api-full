@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const moongoose = require('mongoose');
+const validator = require('validator');
+const AuthError = require('../errors/AuthError');
 
-const userSchema = new mongoose.Schema({
+const usersSchema = new moongoose.Schema({
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Жак-Ив-Кусто',
+    default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
@@ -19,10 +20,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator(link) {
-        return validator.isURL(link);
+      validator(v) {
+        return /^((http|https):\/\/)(www\.)?([\w\W\d]{1,})(\.)([a-zA-Z]{1,10})([\w\W\d]{1,})?$/.test(v);
       },
-      message: 'Вы ввели неправильную ссылку на аватар',
+      message: 'URL введен некорректно.',
     },
   },
   email: {
@@ -33,31 +34,32 @@ const userSchema = new mongoose.Schema({
       validator(email) {
         return validator.isEmail(email);
       },
-      message: 'Введён некорректный email',
+      message: (props) => `${props.value} not valid email!`,
     },
   },
   password: {
     type: String,
     required: true,
-    minlength: 8,
+    minlength: 4,
     select: false,
   },
 });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+// eslint-disable-next-line func-names
+usersSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
+        throw new AuthError('Неправильные почта или пароль');
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error('Неправильные почта или пароль'));
+            throw new AuthError('Неправильные почта или пароль');
           }
           return user;
         });
     });
 };
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = moongoose.model('user', usersSchema);

@@ -1,106 +1,117 @@
-class Api{
-    constructor({baseUrl, headers, сredentials }){
-        this._baseUrl = baseUrl;
-        this._headers = headers;
-        this._сredentials = сredentials;
-    }
-
-    _checkStatus(res) {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return Promise.reject(`Ошибка: ${res.status}`);
-        }
-    }
-
-    getInitialCards() {
-        return fetch(`${this._baseUrl}/cards`, {
-            method: 'GET',
-            headers: this._headers
-        })
-            .then(this._checkStatus)
-    }
+class Api {
+	constructor(options) {
+    	this._url = options.baseUrl;
+    	this._headers = options.headers;
+  	}
     
-    getUserInfo() {
-        return fetch(
-            `${this._baseUrl}/users/me`, {
-            method: 'GET',
-            headers: this._headers
-        })
-        .then(this._checkStatus)
-    }
+    // Отправить запрос
+     _sendRequest(path, parameters) {
+		return fetch(`${this._url}${path}`, parameters).then((res) => {
+      		if (res.ok) {
+        		return res.json();
+      		}
 
-    setUserInfo(userInfo) {
-        console.log(userInfo)
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: 'PATCH',
-            headers: this._headers,
-            body: JSON.stringify(userInfo)
-        }
-        )
-        .then(this._checkStatus)
-    }
+      		return Promise.reject(res.status);
+    	});
+  	}
 
-    editUserInfo(editName, editInfo){
-        return fetch(
-            `${this._baseUrl}/users/me`,
-            {
-                method: 'PATCH',
-                headers: this._headers,
-                body: JSON.stringify({
-                    name: editName,
-                    about: editInfo
-                })
-            }
-        )
-            .then(this._checkStatus)    
-    }
+  	// Получить данные пользователя
+  	getUserInfo() {
+		const token = (localStorage.getItem('jwt'));
 
-    addNewCard(data){
-        return fetch(
-            `${this._baseUrl}/cards`, {
-            method: 'POST',
-            headers: this._headers,
-            body: JSON.stringify({
-                name: data.name,
-                link: data.link
-            })
-        })
-        .then(this._checkStatus)
-    }
+    	return this._sendRequest(`users/me`, {
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+    	});
+	}
 
-    addLikeDislikeCard(cardId, isLike) {
-        return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-            method:  isLike ? 'PUT' : 'DELETE',
-            headers: this._headers
-        })
-            .then(this._checkStatus);
-    }
+  	// Получить карточки из сервера 
+	getInitialCards() {
+		const token = (localStorage.getItem('jwt'));
 
-    patchNewAvatar(link) {
-        return fetch(`${this._baseUrl}/users/me/avatar`, {
-                method: 'PATCH',
-                headers: this._headers,
-                body: JSON.stringify(link)
-        })
-            .then(this._checkStatus);
-    }
+		return this._sendRequest(`cards`, {
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+		});
+	}
 
-    deleteCard(itemId) {
-        return fetch(`${this._baseUrl}/cards/${itemId}`, {
-            method: 'DELETE',
-            headers: this._headers,
-        })
-            .then(this._checkStatus);
-    }
+	// Обновить данные пользователя
+	updateUserInfo(newUserInfo) {
+		const token = (localStorage.getItem('jwt'));
+
+		return this._sendRequest(`users/me`, {
+			method: 'PATCH',
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+			body: JSON.stringify({
+				name: newUserInfo.name,
+				about: newUserInfo.about,
+			}),
+		});
+	}
+
+    // Обновить аватар
+	updateUserAvatar(avatar) {
+		const token = (localStorage.getItem('jwt'));
+
+		return this._sendRequest(`users/me/avatar`, {
+			method: 'PATCH',
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+			body: JSON.stringify({ avatar: avatar })
+		});
+	}
+
+	// Добавить карточку
+	addNewCard(newCard) {
+		const token = (localStorage.getItem('jwt'));
+
+		return this._sendRequest(`cards`, {
+			method: 'POST',
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+			body: JSON.stringify({
+				name: newCard.name,
+				link: newCard.link
+			}),
+		});
+	}
+
+    // Удалить карточку 
+	deleteCard(id) {
+		const token = (localStorage.getItem('jwt'));
+
+		return this._sendRequest(`cards/${id}`, {
+			method: 'DELETE',
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+		});
+	}
+	
+	// Поставить/убрать лайк
+	changeLikeCardStatus(id, isLiked) {
+		const token = (localStorage.getItem('jwt'));
+
+		return this._sendRequest(`cards/${id}/likes`, {
+			method: `${isLiked ? 'PUT' : 'DELETE'}`,
+			headers: {
+				...this._headers,
+				'authorization':`Bearer ${token}`},
+		});
+	}
+
 }
 
-const api = new Api({
-    baseUrl: 'https://api.iskandarov-project.students.nomoreparties.xyz',
+export const api  = new Api({
+    //baseUrl: 'http://localhost:3000', 
+    baseUrl:'https://api.iskandarov-project.students.nomoreparties.xyz/',  
     headers: {
-      'Content-Type': 'application/json',
-    },
-    сredentials: 'include',
+		'Content-Type': 'application/json',
+	}  
   });
-
-export default api;

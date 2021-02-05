@@ -1,59 +1,67 @@
-// export const BASE_URL = 'https://auth.nomoreparties.co';
-export const BASE_URL = 'https://api.iskandarov-project.students.nomoreparties.xyz';
+//export const base_url = 'http://localhost:3000';
+import BadRequestError from '../errors/BadRequestError';
+import UnauthorizedError from '../errors/NotAuthorizedError';
 
+export const base_url = 'https://api.iskandarov-project.students.nomoreparties.xyz';
 
-
-
-// Отправляем запрос на регистрацию
-export const register = (password, email) => fetch(`${BASE_URL}/signup`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  сredentials: 'include',
-  body: JSON.stringify({ password, email }),
-})
-  .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(new Error(`Ошибка: ${res.status} `));
-  });
-
-// Отправляем запрос на авторизацию
-export const authorize = (password, email) => fetch(`${BASE_URL}/signin`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  сredentials: 'include',
-  body: JSON.stringify({ password, email }),
-})
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(new Error(`Ошибка: ${res.status} `));
+export const registration = (password, email) => fetch(`${base_url}/signup`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password, email })
     })
-  .then((data) => {
-    if (data.token) {
-      localStorage.setItem('jwt', data.token);
-      return data.token;
-    }
-  });
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } return Promise.reject(res.status);
+        })
+        .catch((err) => {
+            throw new BadRequestError(err.message);
+        });       
 
-// Отправляем запрос на получение токена
-export const getContent = (token) => fetch(`${BASE_URL}/users/me`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
-  },
-})
-  .then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(new Error(`Ошибка: ${res.status} ....`));
-  })
-  .then((data) => data);
+export const login = (password, email) => fetch(`${base_url}/signin`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password, email })
+    })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } return Promise.reject(res.status);
+        })
+        .then((res) => {
+            if (res.token) {
+                localStorage.setItem('jwt', res.token);
+    
+                return res;
+            }
+        })
+        .catch(err => {
+            if (err.status === 400) {
+                throw new BadRequestError('Не передано одно из полей');
+            } else if (err.status === 401) {
+                throw new UnauthorizedError('Пользователь не найден');
+            }
+        
+            throw Error(`Произошла ошибка: ${err.status}`);
+        });
+
+          
+export const checkedToken = (token) => fetch(`${base_url}/users/me`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization':`Bearer ${token}`
+        },
+    })
+    .then((res) => {
+        return res.ok ? res.json() : Promise.reject(new Error(`Произошла ошибка: ${res.status}`))
+    })
+    .catch((err) => {
+        throw new UnauthorizedError(err.message)
+    });
+
