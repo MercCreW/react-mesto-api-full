@@ -21,7 +21,7 @@ const usersSchema = new moongoose.Schema({
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator(v) {
-        return /^((http|https):\/\/)(www\.)?([\w\W\d]{1,})(\.)([a-zA-Z]{1,10})([\w\W\d]{1,})?$/.test(v);
+        return validator.isURL(v);
       },
       message: 'URL введен некорректно.',
     },

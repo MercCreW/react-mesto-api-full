@@ -18,7 +18,7 @@ const getUsers = (req, res, next) => {
 
 const checkToken = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail((err) => currentError(err, res))
+    .orFail((err) => console.log(err))
     .then((user) => {
       res.send(user);
     })
@@ -85,11 +85,8 @@ const login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 
-      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', 
-      { expiresIn: '7d' }
-      );
-      res.send({ token });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      res.status(200).send({ token });
     })
     .catch(next);
 };
@@ -99,9 +96,9 @@ const editAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id,
     { avatar },
-    { 
-      new: true, 
-      runValidators: true 
+    {
+      new: true,
+      runValidators: true,
     })
     .then((userAvatar) => {
       res.status(200).send((userAvatar));
@@ -121,9 +118,9 @@ const updateProfile = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id,
     { name, about },
-    { 
-      new: true, 
-      runValidators: true 
+    {
+      new: true,
+      runValidators: true,
     })
     .then((user) => {
       res.status(200).send((user));

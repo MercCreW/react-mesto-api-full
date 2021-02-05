@@ -27,7 +27,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.use(requestLogger); 
+app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -40,8 +40,8 @@ app.post('/signup', validateUser, createUser);
 
 app.use('/', auth, routes);
 
-app.use(errorLogger); 
-app.use(errors()); 
+app.use(errorLogger);
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;

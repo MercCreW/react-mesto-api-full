@@ -29,26 +29,25 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findById(id)
+  Card.findById(req.params.cardId)
     .orFail(new NotFoundError('Карточка не найдена'))
     .then((card) => {
       if (card.owner.toString() !== req.user.cardId) {
         throw new ForbiddenError('Нет прав');
       }
-      Card.findByIdAndRemove(req.params.cardId) 
-      .then((card) => { 
-        if (!card) return res.status(404).send({ message: `Карточка с id: ${req.params.cardId} отсутствует` }); 
-        res.status(200).json({ data: card }); 
+      Card.findByIdAndRemove(req.params.cardId)
+        .then((newCardData) => {
+          res.send({ data: newCardData });
+        })
+        .catch((err) => res.status(500).json({ message: err.message }));
     })
-    .catch((err) => res.status(500).json({ message: err.message }));
-  })
     .catch(next);
 };
 
 // добавление лайка
 const addLike = (req, res, next) => {
-  Card.findByIdAndUpdate(req.params.cardId, 
-    { $addToSet: { likes: req.user.cardId } }, 
+  Card.findByIdAndUpdate(req.params.cardId,
+    { $addToSet: { likes: req.user.cardId } },
     { new: true })
     .orFail(new NotFoundError('Такой карточки с таким id нет'))
     .then((like) => {
