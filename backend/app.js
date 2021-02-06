@@ -20,7 +20,7 @@ const corsConfig = {
     'http://iskandarov-project.students.nomoreparties.xyz',
     'https://www.iskandarov-project.students.nomoreparties.xyz',
     'http://www.iskandarov-project.students.nomoreparties.xyz',
-    'http://localhost:3001',
+    'https://localhost:3001',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
@@ -29,7 +29,7 @@ const corsConfig = {
   credentials: true,
 };
 
-app.use(cors());
+// app.use(cors());
 app.use('*', cors(corsConfig));
 
 app.use(cookieParser());

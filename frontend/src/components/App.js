@@ -147,12 +147,11 @@ function App() {
 
     function handleAddPlaceSubmit(data){
         api.addNewCard(data)
-            .then((newCard) => {
-                setCards([newCard, ...cards]);
-                closeAllPopups();
-            })
-            .catch((err) => console.log(err))
-    }
+          .then((newCard) => {
+            setCards([newCard, ...cards]);
+            closeAllPopups();
+          });
+        }
 
     function handleCardLike(card){
         const isLiked = card.likes.some(i => i === currentUser._id);
@@ -167,7 +166,6 @@ function App() {
 
 
     function handleDeleteCard(card){
-        console.log(card);
         api.deleteCard(card._id)
         .then(() => {
             const newCards = cards.filter((currentCard)=> currentCard._id !== card._id);
