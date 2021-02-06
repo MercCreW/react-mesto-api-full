@@ -14,9 +14,7 @@ const { validateUser, validateLogin } = require('./middlewares/validateReq');
 const { PORT = 3001 } = process.env;
 const app = express();
 
-
 app.use(cors());
-
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
