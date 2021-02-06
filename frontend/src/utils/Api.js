@@ -64,7 +64,7 @@ class Api {
 			headers: {
 				...this._headers,
 				'authorization':`Bearer ${token}`},
-			body: JSON.stringify({ avatar: avatar })
+			body: JSON.stringify(avatar)
 		});
 	}
 
@@ -112,8 +112,8 @@ class Api {
 }
 
 export const api  = new Api({
-    // baseUrl: 'https://localhost:3001/', 
-    baseUrl:'https://api.iskandarov-project.students.nomoreparties.xyz/',  
+    baseUrl: 'http://localhost:3001/', 
+    // baseUrl:'https://api.iskandarov-project.students.nomoreparties.xyz/',  
     headers: {
 		'Content-Type': 'application/json',
 	}  

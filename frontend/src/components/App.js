@@ -137,6 +137,7 @@ function App() {
     }
 
     function handleUpdateAvatar(link){
+        console.log(link);
         api.updateUserAvatar(link)
             .then((res) => {
                 setCurrentUser(res);

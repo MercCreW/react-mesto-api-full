@@ -101,7 +101,7 @@ const editAvatar = (req, res, next) => {
       runValidators: true,
     })
     .then((userAvatar) => {
-      res.status(200).send((userAvatar));
+      res.send((userAvatar));
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
