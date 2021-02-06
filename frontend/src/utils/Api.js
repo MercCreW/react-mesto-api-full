@@ -41,7 +41,6 @@ class Api {
 	// Обновить данные пользователя
 	updateUserInfo(newUserInfo) {
 		const token = (localStorage.getItem('jwt'));
-		console.log(newUserInfo);
 
 		return this._sendRequest(`users/me`, {
 			method: 'PATCH',
@@ -71,7 +70,6 @@ class Api {
 	// Добавить карточку
 	addNewCard(newCard) {
 		const token = (localStorage.getItem('jwt'));
-		console.log(newCard);
 
 		return this._sendRequest(`cards`, {
 			method: 'POST',
