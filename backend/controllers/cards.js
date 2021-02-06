@@ -1,7 +1,7 @@
 const Card = require('../models/cards');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/ValidationError');
-const ForbiddenError = require('../errors/ForbiddenError');
+const ForbiddenError = require('../errors/forbiddenError');
 
 // gполучение всех карточек
 const getCards = (req, res, next) => {

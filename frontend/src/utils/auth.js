@@ -1,5 +1,5 @@
 import BadRequestError from '../errors/BadRequestError';
-import UnauthorizedError from '../errors/NotAuthorizedError';
+import UnauthorizedError from '../errors/notAuthorizedError';
 
 // export const base_url = 'https://localhost:3001';
 export const base_url = 'https://api.iskandarov-project.students.nomoreparties.xyz';
