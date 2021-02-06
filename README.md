@@ -3,7 +3,7 @@
  
 
 # Ссылки:  
-Публичный IP - [178.154.229.149]
+Публичный IP - [84.201.177.226]
 
 [http://iskandarov-project.students.nomoreparties.xyz] 
 [http://api.iskandarov-project.students.nomoreparties.xyz] 
