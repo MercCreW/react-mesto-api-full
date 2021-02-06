@@ -5,5 +5,5 @@
 # Ссылки:  
 Публичный IP - [84.201.177.226]
 
-[http://iskandarov-project.students.nomoreparties.xyz] 
-[http://api.iskandarov-project.students.nomoreparties.xyz] 
+[https://iskandarov-project.students.nomoreparties.xyz] 
+[https://api.iskandarov-project.students.nomoreparties.xyz] 
