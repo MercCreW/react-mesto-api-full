@@ -16,7 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
-    "deployServer": "npm run build &&  scp -r ./build/* merccrew@178.154.229.149:/home/merccrew/react-mesto-api-full/frontend",
+    "deployServer": "npm run build &&  scp -r ./build/* merccrew@84.201.177.226:/home/merccrew/react-mesto-api-full/frontend",
     "deployDist": "gh-pages -d dist",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
