@@ -29,6 +29,7 @@ class Api {
   	// Получить карточки из сервера 
 	getInitialCards() {
 		const token = (localStorage.getItem('jwt'));
+		// console.log(token);
 
 		return this._sendRequest(`cards`, {
 			headers: {
@@ -40,6 +41,7 @@ class Api {
 	// Обновить данные пользователя
 	updateUserInfo(newUserInfo) {
 		const token = (localStorage.getItem('jwt'));
+		console.log(newUserInfo);
 
 		return this._sendRequest(`users/me`, {
 			method: 'PATCH',
@@ -69,6 +71,7 @@ class Api {
 	// Добавить карточку
 	addNewCard(newCard) {
 		const token = (localStorage.getItem('jwt'));
+		console.log(newCard);
 
 		return this._sendRequest(`cards`, {
 			method: 'POST',
@@ -109,8 +112,8 @@ class Api {
 }
 
 export const api  = new Api({
-    //baseUrl: 'http://localhost:3000', 
-    baseUrl:'https://api.iskandarov-project.students.nomoreparties.xyz/',  
+    baseUrl: 'http://localhost:3001/', 
+    // baseUrl:'https://api.iskandarov-project.students.nomoreparties.xyz/',  
     headers: {
 		'Content-Type': 'application/json',
 	}  

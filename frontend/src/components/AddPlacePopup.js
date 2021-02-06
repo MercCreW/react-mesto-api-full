@@ -6,10 +6,12 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}){
     const refCardName = React.useRef();
     const refCardLink = React.useRef();
 
+
     function handleSubmit(e) {
         e.preventDefault();
 
-        onAddPlace({ 
+        onAddPlace(
+            { 
             name: refCardName.current.value,
             link: refCardLink.current.value
         });

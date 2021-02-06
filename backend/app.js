@@ -11,10 +11,26 @@ const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { validateUser, validateLogin } = require('./middlewares/validateReq');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
+const corsConfig = {
+  origin: [
+    'https://iskandarov-project.students.nomoreparties.xyz',
+    'http://iskandarov-project.students.nomoreparties.xyz',
+    'https://www.iskandarov-project.students.nomoreparties.xyz',
+    'http://www.iskandarov-project.students.nomoreparties.xyz',
+    'http://localhost:3001',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'Origin', 'Referer', 'Accept', 'Authorization'],
+  credentials: true,
+};
+
 app.use(cors());
+app.use('*', cors(corsConfig));
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
