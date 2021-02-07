@@ -34,7 +34,7 @@ const usersSchema = new moongoose.Schema({
       validator(email) {
         return validator.isEmail(email);
       },
-      message: (props) => `${props.value} not valid email!`,
+      message: 'Введён некорректный email',
     },
   },
   password: {

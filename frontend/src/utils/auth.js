@@ -1,8 +1,8 @@
 import BadRequestError from '../errors/BadRequestError';
 import UnauthorizedError from '../errors/notAuthorizedError';
 
-// export const base_url = 'http://localhost:3001';
-export const base_url = 'https://api.iskandarov-project.students.nomoreparties.xyz';
+export const base_url = 'http://localhost:3001';
+// export const base_url = 'https://api.iskandarov-project.students.nomoreparties.xyz';
 
 export const registration = (password, email) => fetch(`${base_url}/signup`, {
         method: 'POST',
@@ -31,7 +31,7 @@ export const login = (password, email) => fetch(`${base_url}/signin`, {
         .then((res) => {
             if (res.ok) {
                 return res.json();
-            } return Promise.reject(res.status);
+            } return Promise.reject(res);
         })
         .then((res) => {
             if (res.token) {

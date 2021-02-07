@@ -4,6 +4,7 @@ const User = require('../models/users');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/notFoundError');
 const ConflictError = require('../errors/ConflictError');
+const AuthError = require('../errors/AuthError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -18,7 +19,7 @@ const getUsers = (req, res, next) => {
 
 const checkToken = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail((err) => console.log(err))
+    .orFail(new AuthError('Вы не авторизированы'))
     .then((user) => {
       res.send(user);
     })
@@ -27,33 +28,26 @@ const checkToken = (req, res, next) => {
 
 const getUserById = (req, res, next) => {
   User.findById(req.user._id)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      } return res.status(200).send(user);
+    .orFail()
+    .catch(() => {
+      throw new NotFoundError({ message: 'Нет пользователя с таким id' });
     })
-    .catch((error) => {
-      if (error.kind === 'ObjectId') {
-        throw new ValidationError('Нет корректного id');
-      }
-      next(error);
-    });
+    .then((user) => res.send(user))
+    .catch(next);
 };
-// получение информации об одном юзере
-const getOneUser = (req, res, next) => {
-  User.findById(req.user)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      } return res.status(200).send(user);
-    })
-    .catch((error) => {
-      if (error.kind === 'ObjectId') {
-        throw new ValidationError('Нет корректного id');
-      }
-      next(error);
-    });
-};
+  
+//     .then((user) => {
+//       if (!user) {
+//         throw new NotFoundError('Пользователь не найден');
+//       } return res.status(200).send(user);
+//     })
+//     .catch((error) => {
+//       if (error.kind === 'ObjectId') {
+//         throw new ValidationError('Нет корректного id');
+//       }
+//       next(error);
+//     });
+// };
 
 // создание пользователя
 const createUser = (req, res, next) => {
@@ -86,7 +80,8 @@ const login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      res.status(200).send({ token });
+      res.send({ token });
+      console.log(token);
     })
     .catch(next);
 };
@@ -100,15 +95,22 @@ const editAvatar = (req, res, next) => {
       new: true,
       runValidators: true,
     })
+    .orFail(() => new NotFoundError({ message: 'Нет пользователя с таким id' }))
+    .catch((err) => {
+      if (err instanceof NotFoundError) {
+        throw err;
+      }
+      throw new ValidationError({ message: `Указаны некорректные данные: ${err.message}` });
+    })
     .then((userAvatar) => {
       res.send((userAvatar));
     })
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        throw new ValidationError('Введены некорректные денные');
-      }
-      throw error;
-    })
+    // .catch((error) => {
+    //   if (error.name === 'ValidationError') {
+    //     throw new ValidationError('Введены некорректные денные');
+    //   }
+    //   throw error;
+    // })
     .catch(next);
 };
 
@@ -122,21 +124,27 @@ const updateProfile = (req, res, next) => {
       new: true,
       runValidators: true,
     })
+    .orFail(() => new NotFoundError({ message: 'Нет пользователя с таким id' }))
+    .catch((err) => {
+      if (err instanceof NotFoundError) {
+        throw err;
+      }
+      throw new ValidationError({ message: `Указаны некорректные данные: ${err.message}` });
+    })
     .then((user) => {
       res.status(200).send((user));
     })
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        throw new ValidationError('Введены некорректные денные');
-      }
-      throw error;
-    })
+    // .catch((error) => {
+    //   if (error.name === 'ValidationError') {
+    //     throw new ValidationError('Введены некорректные денные');
+    //   }
+    //   throw error;
+    // })
     .catch(next);
 };
 
 module.exports = {
   getUsers,
-  getOneUser,
   createUser,
   login,
   editAvatar,
