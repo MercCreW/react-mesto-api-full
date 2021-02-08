@@ -27,10 +27,10 @@ const checkToken = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
-  User.findById(req.user._id)
+  User.findById(req.params._id)
     .orFail()
     .catch(() => {
-      throw new NotFoundError({ message: 'Нет пользователя с таким id' });
+      throw new NotFoundError('Нет пользователя с таким id');
     })
     .then((user) => res.send(user))
     .catch(next);
@@ -81,7 +81,6 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res.send({ token });
-      console.log(token);
     })
     .catch(next);
 };
